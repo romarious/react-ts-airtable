@@ -1,13 +1,11 @@
-import React from 'react'
+import * as React from 'react';
 
 type Props = {
-  name: string
-}
+  name: string;
+};
 
 const FieldHeader = (props: Props) => {
-  return <h4 style={{marginBottom: 16}}>
-    {props.name}
-  </h4>
-}
+  return <h4 style={{ marginBottom: 16 }}>{props.name}</h4>;
+};
 
-export default FieldHeader
+export default FieldHeader;
