@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createRecord, FieldRecord } from '../../Airtable/project';
+import {
+  createRecord,
+  FieldRecord,
+  updateRecord
+} from '../../Airtable/project';
 import { RootState } from '../store';
 
 export type Field =
@@ -22,61 +26,57 @@ export type Field =
       value: number;
     };
 
-export type State = Field[];
+export type State = {
+  currentFieldId: string;
+  fields: Field[];
+};
 
-export const initialState: State = [
-  {
-    type: 'text',
-    id: `title`,
-    name: `Title`,
-    value: 'some title'
-  },
-  {
-    type: 'text',
-    id: `description`,
-    name: `Description`,
-    value: 'some description'
-  },
-  {
-    type: 'text',
-    id: `notes`,
-    name: `Notes`,
-    value: 'some notes'
-  },
-  {
-    type: 'number',
-    id: `budget`,
-    name: `Budget`,
-    value: 40
-  },
-  {
-    type: 'formula',
-    id: `double_budget`,
-    name: `Double Budget`,
-    value: 0
-  }
-];
+export const initialState: State = {
+  currentFieldId: '',
+  fields: [
+    {
+      type: 'text',
+      id: `title`,
+      name: `Title`,
+      value: 'some title'
+    },
+    {
+      type: 'text',
+      id: `description`,
+      name: `Description`,
+      value: 'some description'
+    },
+    {
+      type: 'text',
+      id: `notes`,
+      name: `Notes`,
+      value: 'some notes'
+    },
+    {
+      type: 'number',
+      id: `budget`,
+      name: `Budget`,
+      value: 40
+    },
+    {
+      type: 'formula',
+      id: `double_budget`,
+      name: `Double Budget`,
+      value: 80
+    }
+  ]
+};
 
 const setFieldValue = (
   state,
   action: PayloadAction<NumberFieldPayload | TextFieldPayload>
 ) => {
-  state.forEach(field => {
+  state.fields.forEach(field => {
     if (field.id === action.payload.fieldId) {
       field.value = action.payload.value;
     }
   });
 };
-
-// export const createFieldRecord = createAsyncThunk(
-//   'fields/createRecord',
-//   async (_, { dispatch, getState }) => {
-//     const state = getState();
-//     return await createRecord({
-//       ...getNewRecord(state.fields)
-//     });
-//   }
-// );
 
 export const getNewRecord = (state: State): FieldRecord => {
   const record: FieldRecord = {
@@ -85,7 +85,7 @@ export const getNewRecord = (state: State): FieldRecord => {
     Notes: '',
     Budget: 0
   };
-  state.forEach(field => {
+  state.fields.forEach(field => {
     if (field.name !== 'Double Budget') {
       record[field.name] = field.value;
     }
@@ -107,17 +107,12 @@ export const fieldsSlice = createSlice({
       return state;
     },
     saveFields: state => {
-      return state;
+      updateRecord(getNewRecord(state));
     },
     createFieldRecord: state => {
-      const record = createRecord(getNewRecord(state));
+      createRecord(getNewRecord(state));
     }
   }
-  // extraReducers: builder => {
-  //   builder.addCase(createFieldRecord.fulfilled, (state, action) => {
-  //     console.log(state, action);
-  //   });
-  // }
 });
 
 export type TextFieldPayload = {
@@ -130,7 +125,7 @@ export type NumberFieldPayload = {
   value: number;
 };
 
-export const selectFields = (state: RootState): Field[] => state.fields;
+export const selectFields = (state: RootState): Field[] => state.root.fields;
 
 export const {
   setNumberFieldValue,

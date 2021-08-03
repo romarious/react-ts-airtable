@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { createFieldRecord } from '../redux/reducers/fieldsReducer';
+import { saveFields } from '../redux/reducers/fieldsReducer';
 
 const Save = () => {
   const dispatch = useDispatch();
 
   const saveForm = (event: React.MouseEvent) => {
-    dispatch(createFieldRecord());
+    dispatch(saveFields());
   };
 
   return (

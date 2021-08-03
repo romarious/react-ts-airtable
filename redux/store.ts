@@ -7,7 +7,7 @@ export type GlobalState = {
 
 const store = configureStore({
   reducer: {
-    fields: fieldsReducer
+    root: fieldsReducer
   }
 });
 

@@ -4,9 +4,10 @@ import {
   AIRTABLE_BASE_ID,
   AIRTABLE_NAME
 } from '../constants';
-import { Field } from '../redux/reducers/fieldsReducer';
 
 const base = new Airtable({ apiKey: AIRTABLE_API_KEY }).base(AIRTABLE_BASE_ID);
+
+let currentRecordId: string = '';
 
 export const getFormSubmitions = () => {
   const forms = base(AIRTABLE_NAME)
@@ -46,13 +47,23 @@ export type FieldRecord = {
 };
 
 export const createRecord = (fields: FieldRecord) => {
-  base(AIRTABLE_NAME).create({ ...fields }, function(err, records) {
+  base(AIRTABLE_NAME).create({ ...fields }, function(err, record) {
     if (err) {
       console.error(err);
       return;
     }
-    records.forEach(function(record) {
-      return record.getId();
-    });
+    currentRecordId = record.id;
+  });
+};
+
+export const updateRecord = (fields: FieldRecord) => {
+  base(AIRTABLE_NAME).update(currentRecordId, { ...fields }, function(
+    err,
+    record
+  ) {
+    if (err) {
+      console.error(err);
+      return;
+    }
   });
 };

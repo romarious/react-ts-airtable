@@ -11,13 +11,9 @@ const App = () => {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    const listener = () => dispatch(createFieldRecord());
-
-    window.addEventListener('beforeunload', listener);
-    return () => {
-      window.removeEventListener('beforeunload', listener);
-    };
+    dispatch(createFieldRecord());
   }, []);
+  
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       {fields.map(field => (
