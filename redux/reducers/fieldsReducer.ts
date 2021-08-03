@@ -90,7 +90,6 @@ export const getNewRecord = (state: State): FieldRecord => {
       record[field.name] = field.value;
     }
   });
-  console.log(record, state);
   return record;
 };
 
