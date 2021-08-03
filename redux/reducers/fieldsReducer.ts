@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NumberFieldPayload, TextFieldPayload } from '../actions';
 import { RootState } from '../store';
 
 export type Field =
@@ -68,6 +67,16 @@ export const fieldsSlice = createSlice({
     }
   }
 });
+
+export type TextFieldPayload = {
+  fieldId: string;
+  value: number;
+};
+
+export type NumberFieldPayload = {
+  fieldId: string;
+  value: number;
+};
 
 export const selectFields = (state: RootState): Field[] => state.fields;
 

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import FieldHeader from '../FieldHeader';
-import { SetTextFieldValue } from '../../redux/actions';
 import { useAppDispatch } from '../../redux/hooks';
 import { setTextFieldValue } from '../../redux/reducers/fieldsReducer';
 

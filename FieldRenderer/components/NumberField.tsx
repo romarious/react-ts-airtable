@@ -1,6 +1,5 @@
 import * as React from 'react';
 import FieldHeader from '../FieldHeader';
-import { SetNumberFieldValue } from '../../redux/actions';
 import { useAppDispatch } from '../../redux/hooks';
 import NumericInput = require('react-numeric-input');
 import { setNumberFieldValue } from '../../redux/reducers/fieldsReducer';
