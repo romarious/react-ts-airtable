@@ -1,8 +1,9 @@
 import * as React from 'react';
 import FieldHeader from '../FieldHeader';
 import { SetNumberFieldValue } from '../../redux/actions';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
 import NumericInput = require('react-numeric-input');
+import { setNumberFieldValue } from '../../redux/reducers/fieldsReducer';
 
 type Props = {
   fieldId: string;
@@ -11,17 +12,15 @@ type Props = {
 };
 
 const NumberField = (props: Props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const setValue = React.useCallback(valueAsNumber => {
-    const action: SetNumberFieldValue = {
-      type: 'SET_NUMBER_FIELD_VALUE',
-      payload: {
+    dispatch(
+      setNumberFieldValue({
         fieldId: props.fieldId,
         value: valueAsNumber
-      }
-    };
-    dispatch(action);
+      })
+    );
   }, []);
 
   return (

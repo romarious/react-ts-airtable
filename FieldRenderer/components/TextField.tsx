@@ -1,7 +1,8 @@
 import * as React from 'react';
 import FieldHeader from '../FieldHeader';
 import { SetTextFieldValue } from '../../redux/actions';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
+import { setTextFieldValue } from '../../redux/reducers/fieldsReducer';
 
 type Props = {
   fieldId: string;
@@ -10,16 +11,16 @@ type Props = {
 };
 
 const TextField = (props: Props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const setValue = React.useCallback(e => {
-    const action: SetTextFieldValue = {
-      type: 'SET_TEXT_FIELD_VALUE',
-      fieldId: props.fieldId,
-      value: e.target.value
-    };
-
-    dispatch(action);
+    console.log('set!');
+    dispatch(
+      setTextFieldValue({
+        fieldId: props.fieldId,
+        value: e.target.value
+      })
+    );
   }, []);
 
   return (

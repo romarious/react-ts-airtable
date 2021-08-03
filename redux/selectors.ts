@@ -1,13 +1,8 @@
-
-import { useSelector } from 'react-redux';
-import { GlobalState } from './reducers'
-import { Field } from './reducers/fields'
-
+import { Field, selectFields } from './reducers/fieldsReducer';
+import { useAppSelector } from './hooks';
 
 /* istanbul ignore next */
-export const useFields = (): Field[] => {
-  const fields: Field[] = useSelector(
-      (state: GlobalState) => state.fields
-  );
+export const useSelectFields = (): Field[] => {
+  const fields: Field[] = useAppSelector(selectFields);
   return fields;
 };

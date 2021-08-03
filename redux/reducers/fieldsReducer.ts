@@ -1,10 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  Action,
-  NumberFieldPayload,
-  SetNumberFieldValue,
-  TextFieldPayload
-} from '../actions';
+import { NumberFieldPayload, TextFieldPayload } from '../actions';
+import { RootState } from '../store';
 
 export type Field =
   | {
@@ -49,52 +45,32 @@ export const initialState: State = [
   }
 ];
 
-/* istanbul ignore next */
-const fieldsReducer = (state: State = initialState, action: Action) => {
-  switch (action.type) {
-    case 'SET_NUMBER_FIELD_VALUE':
-    case 'SET_TEXT_FIELD_VALUE': {
-      return state.map(field => {
-        if (field.id === action.fieldId) {
-          return {
-            ...field,
-            value: action.value
-          };
-        } else {
-          return field;
-        }
-      });
-    }
-    case 'SAVE_FIELDS':
-
-    default:
-      return state;
-  }
-};
-
 const setFieldValue = (
   state,
   action: PayloadAction<NumberFieldPayload | TextFieldPayload>
 ) => {
-  return state.map(field => {
+  state.forEach(field => {
     if (field.id === action.payload.fieldId) {
-      return {
-        ...field,
-        value: action.payload.value
-      };
-    } else {
-      return field;
+      field.value = action.payload.value;
     }
   });
 };
 
-export const counterSlice = createSlice({
+export const fieldsSlice = createSlice({
   name: 'fields',
   initialState,
   reducers: {
-    setNumberFieldValue: (state, action) => setFieldValue(state, action),
-    setTextFieldValue: (state, action) => setFieldValue(state, action)
+    setNumberFieldValue: (state, action) => {
+      setFieldValue(state, action);
+    },
+    setTextFieldValue: (state, action) => {
+      setFieldValue(state, action);
+    }
   }
 });
 
-export default fieldsReducer;
+export const selectFields = (state: RootState): Field[] => state.fields;
+
+export const { setNumberFieldValue, setTextFieldValue } = fieldsSlice.actions;
+
+export default fieldsSlice.reducer;
