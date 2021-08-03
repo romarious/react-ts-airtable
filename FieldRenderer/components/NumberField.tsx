@@ -16,8 +16,10 @@ const NumberField = (props: Props) => {
   const setValue = React.useCallback(valueAsNumber => {
     const action: SetNumberFieldValue = {
       type: 'SET_NUMBER_FIELD_VALUE',
-      fieldId: props.fieldId,
-      value: valueAsNumber
+      payload: {
+        fieldId: props.fieldId,
+        value: valueAsNumber
+      }
     };
     dispatch(action);
   }, []);
