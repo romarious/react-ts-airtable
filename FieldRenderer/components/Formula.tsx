@@ -1,30 +1,25 @@
 import * as React from 'react';
 import FieldHeader from '../FieldHeader';
 import { useAppDispatch } from '../../redux/hooks';
-import { setTextFieldValue } from '../../redux/reducers/fieldsReducer';
+import { setDoubleBudgetValue } from '../../redux/reducers/fieldsReducer';
 
 type Props = {
   fieldId: string;
   fieldName: string;
-  value: string;
+  value: number;
 };
 
-const TextField = (props: Props) => {
+const Formula = (props: Props) => {
   const dispatch = useAppDispatch();
 
-  const setValue = React.useCallback(e => {
-    dispatch(
-      setTextFieldValue({
-        fieldId: props.fieldId,
-        value: e.target.value
-      })
-    );
+  React.useEffect(() => {
+    dispatch(setDoubleBudgetValue());
   }, []);
 
   return (
     <div style={styles.container}>
       <FieldHeader name={props.fieldName} />
-      <input style={styles.input} onChange={setValue} value={props.value} />
+      <p>{props.value}</p>
     </div>
   );
 };
@@ -44,4 +39,4 @@ const styles = {
   }
 };
 
-export default TextField;
+export default Formula;

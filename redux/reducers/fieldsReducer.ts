@@ -13,6 +13,12 @@ export type Field =
       id: string;
       name: string;
       value: number;
+    }
+  | {
+      type: 'formula';
+      id: string;
+      name: string;
+      value: number;
     };
 
 export type State = Field[];
@@ -41,6 +47,12 @@ export const initialState: State = [
     id: `budget`,
     name: `Budget`,
     value: 40
+  },
+  {
+    type: 'formula',
+    id: `double_budget`,
+    name: `Double Budget`,
+    value: 0
   }
 ];
 
@@ -55,6 +67,14 @@ const setFieldValue = (
   });
 };
 
+const setDoubleBudget = (state, action: any) => {
+  state.forEach(field => {
+    if (field.id === 'double_budget') {
+      field.value = action.payload.value * 2;
+    }
+  });
+};
+
 export const fieldsSlice = createSlice({
   name: 'fields',
   initialState,
@@ -64,6 +84,17 @@ export const fieldsSlice = createSlice({
     },
     setTextFieldValue: (state, action) => {
       setFieldValue(state, action);
+    },
+    setDoubleBudgetValue: state => {
+      const { value } = state.filter(field => field.id === 'budget')[0];
+      if (typeof value === 'number') {
+        setDoubleBudget(state, {
+          payload: { value }
+        });
+      }
+    },
+    saveFields: state => {
+      return state;
     }
   }
 });
@@ -78,8 +109,17 @@ export type NumberFieldPayload = {
   value: number;
 };
 
+export type DoubleFieldPayload = {
+  value: number;
+};
+
 export const selectFields = (state: RootState): Field[] => state.fields;
 
-export const { setNumberFieldValue, setTextFieldValue } = fieldsSlice.actions;
+export const {
+  setNumberFieldValue,
+  setTextFieldValue,
+  setDoubleBudgetValue,
+  saveFields
+} = fieldsSlice.actions;
 
 export default fieldsSlice.reducer;

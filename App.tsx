@@ -1,6 +1,7 @@
 import * as React from 'react';
 import FieldRenderer from './FieldRenderer';
 import { useSelectFields } from './redux/selectors';
+import Save from './Save/Save';
 import './style.css';
 
 const App = () => {
@@ -10,6 +11,7 @@ const App = () => {
       {fields.map(field => (
         <FieldRenderer field={field} />
       ))}
+      <Save />
     </div>
   );
 };
