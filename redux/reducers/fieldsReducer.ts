@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createRecord, FieldRecord } from '../../Airtable/project';
 import { RootState } from '../store';
 
 export type Field =
@@ -67,12 +68,30 @@ const setFieldValue = (
   });
 };
 
-const setDoubleBudget = (state, action: any) => {
+// export const createFieldRecord = createAsyncThunk(
+//   'fields/createRecord',
+//   async (_, { dispatch, getState }) => {
+//     const state = getState();
+//     return await createRecord({
+//       ...getNewRecord(state.fields)
+//     });
+//   }
+// );
+
+export const getNewRecord = (state: State): FieldRecord => {
+  const record: FieldRecord = {
+    Title: '',
+    Description: '',
+    Notes: '',
+    Budget: 0
+  };
   state.forEach(field => {
-    if (field.id === 'double_budget') {
-      field.value = action.payload.value * 2;
+    if (field.name !== 'Double Budget') {
+      record[field.name] = field.value;
     }
   });
+  console.log(record, state);
+  return record;
 };
 
 export const fieldsSlice = createSlice({
@@ -86,17 +105,20 @@ export const fieldsSlice = createSlice({
       setFieldValue(state, action);
     },
     setDoubleBudgetValue: state => {
-      const { value } = state.filter(field => field.id === 'budget')[0];
-      if (typeof value === 'number') {
-        setDoubleBudget(state, {
-          payload: { value }
-        });
-      }
+      return state;
     },
     saveFields: state => {
       return state;
+    },
+    createFieldRecord: state => {
+      const record = createRecord(getNewRecord(state));
     }
   }
+  // extraReducers: builder => {
+  //   builder.addCase(createFieldRecord.fulfilled, (state, action) => {
+  //     console.log(state, action);
+  //   });
+  // }
 });
 
 export type TextFieldPayload = {
@@ -109,17 +131,14 @@ export type NumberFieldPayload = {
   value: number;
 };
 
-export type DoubleFieldPayload = {
-  value: number;
-};
-
 export const selectFields = (state: RootState): Field[] => state.fields;
 
 export const {
   setNumberFieldValue,
   setTextFieldValue,
   setDoubleBudgetValue,
-  saveFields
+  saveFields,
+  createFieldRecord
 } = fieldsSlice.actions;
 
 export default fieldsSlice.reducer;

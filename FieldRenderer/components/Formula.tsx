@@ -1,7 +1,6 @@
 import * as React from 'react';
 import FieldHeader from '../FieldHeader';
 import { useAppDispatch } from '../../redux/hooks';
-import { setDoubleBudgetValue } from '../../redux/reducers/fieldsReducer';
 
 type Props = {
   fieldId: string;
@@ -11,10 +10,6 @@ type Props = {
 
 const Formula = (props: Props) => {
   const dispatch = useAppDispatch();
-
-  React.useEffect(() => {
-    dispatch(setDoubleBudgetValue());
-  }, []);
 
   return (
     <div style={styles.container}>
