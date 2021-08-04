@@ -119,7 +119,7 @@ export const getNewRecord = (state: State): FieldRecord => {
 export const createFieldRecord = createAsyncThunk<{ state: RootState }>(
   'fields/createRecord',
   async (_, { getState }): Promise<CreatedFieldRecord> => {
-    const newRecord = getNewRecord(getState().root);
+    const newRecord = getNewRecord(getState());
     const NewFieldRecord = await createRecord(newRecord);
     return NewFieldRecord;
   }
@@ -128,7 +128,7 @@ export const createFieldRecord = createAsyncThunk<{ state: RootState }>(
 export const saveFields = createAsyncThunk(
   'fields/saveFields',
   async (_, { getState }): Promise<FieldRecord> => {
-    const state = getState().root;
+    const state = getState();
     const updatedField = await updateRecord(
       getNewRecord(state),
       state.currentRecordId
@@ -172,7 +172,7 @@ export const fieldsSlice = createSlice({
   }
 });
 
-export const fieldsSelector = (state: RootState): Field[] => state.root.fields;
+export const fieldsSelector = (state: RootState): Field[] => state.fields;
 
 export const { setNumberFieldValue, setTextFieldValue } = fieldsSlice.actions;
 
