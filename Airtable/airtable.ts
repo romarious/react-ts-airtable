@@ -35,7 +35,6 @@ export const updateRecord = async (
   fields: FieldRecord,
   currentRecordId
 ): Promise<FieldRecord> => {
-  console.log('update');
   const record = await base(AIRTABLE_NAME).update(currentRecordId, {
     ...fields
   });

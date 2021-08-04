@@ -33,7 +33,7 @@ export type Field =
       type: 'formula';
       id: string;
       name: string;
-      value: number;
+      value: number | null;
     };
 
 export type State = {
@@ -72,7 +72,7 @@ export const initialState: State = {
       type: 'formula',
       id: `double_budget`,
       name: `Double Budget`,
-      value: 0
+      value: null
     }
   ]
 };
@@ -115,12 +115,11 @@ export const createFieldRecord = createAsyncThunk<{ state: RootState }>(
 export const saveFields = createAsyncThunk(
   'fields/saveFields',
   async (_, { getState }): Promise<FieldRecord> => {
-    const state = getState();
+    const state = getState().root;
     const updatedField = await updateRecord(
       getNewRecord(state),
       state.currentRecordId
     );
-    console.log(updatedField);
     return updatedField;
   }
 );
@@ -139,7 +138,7 @@ export const fieldsSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(createFieldRecord.fulfilled, (state, action) => {
       const { recordId, fields } = action.payload;
-      state.currentFieldId = recordId;
+      state.currentRecordId = recordId;
       setFieldValue(state, {
         ...action,
         payload: {
@@ -149,12 +148,11 @@ export const fieldsSlice = createSlice({
       });
     });
     builder.addCase(saveFields.fulfilled, (state, action) => {
-      const { fields } = action.payload;
       setFieldValue(state, {
         ...action,
         payload: {
           fieldId: 'double_budget',
-          value: action.payload.fields['Double Budget']
+          value: action.payload['Double Budget']
         }
       });
     });
