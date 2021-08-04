@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { saveFields } from '../redux/reducers/fieldsReducer';
 
-const Save = () => {
+const Save: React.FC = () => {
   const dispatch = useDispatch();
 
   const saveForm = (event: React.MouseEvent) => {

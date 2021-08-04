@@ -170,7 +170,7 @@ export type NumberFieldPayload = {
   value: number;
 };
 
-export const selectFields = (state: RootState): Field[] => state.root.fields;
+export const fieldsSelector = (state: RootState): Field[] => state.root.fields;
 
 export const {
   setNumberFieldValue,

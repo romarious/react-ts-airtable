@@ -8,7 +8,7 @@ type Props = {
   field: Field;
 };
 
-const FieldRenderer = (props: Props) => {
+const FieldRenderer: React.FC<Props> = (props: Props) => {
   const { field } = props;
   switch (field.type) {
     case 'text':

@@ -4,7 +4,7 @@ type Props = {
   name: string;
 };
 
-const FieldHeader = (props: Props) => {
+const FieldHeader: React.FC<Props> = (props: Props) => {
   return <h4 style={{ marginBottom: 16 }}>{props.name}</h4>;
 };
 

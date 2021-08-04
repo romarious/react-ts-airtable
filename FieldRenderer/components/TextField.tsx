@@ -9,7 +9,7 @@ type Props = {
   value: string;
 };
 
-const TextField = (props: Props) => {
+const TextField: React.FC<Props> = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const setValue = React.useCallback(e => {

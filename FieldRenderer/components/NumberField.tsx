@@ -10,7 +10,7 @@ type Props = {
   value: number;
 };
 
-const NumberField = (props: Props) => {
+const NumberField: React.FC<Props> = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const setValue = React.useCallback(valueAsNumber => {

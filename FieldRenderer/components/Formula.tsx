@@ -7,7 +7,7 @@ type Props = {
   value: number;
 };
 
-const Formula = (props: Props) => {
+const Formula: React.FC<Props> = (props: Props) => {
   return (
     <div style={styles.container}>
       <FieldHeader name={props.fieldName} />
