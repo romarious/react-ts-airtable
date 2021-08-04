@@ -156,7 +156,7 @@ export const fieldsSlice = createSlice({
         ...action,
         payload: {
           fieldId: 'double_budget',
-          value: action.payload.fields['Double Budget']
+          value: fields['Double Budget']
         }
       });
     });
