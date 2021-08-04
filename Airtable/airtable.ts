@@ -9,8 +9,6 @@ export const base = new Airtable({ apiKey: AIRTABLE_API_KEY }).base(
   AIRTABLE_BASE_ID
 );
 
-export let currentRecordId: string = '';
-
 export type FieldRecord = {
   Title: string;
   Description: string;
@@ -18,17 +16,28 @@ export type FieldRecord = {
   Budget: number;
 };
 
-export const createRecord = async (fields: FieldRecord): Promise<number> => {
-  const [record] = await base(AIRTABLE_NAME).create({ ...fields });
-  console.log(record);
-  return record.id;
+export type NewFieldRecord = {
+  recordId: string;
+  fields: FieldRecord;
 };
 
-export const updateRecord = (fields: FieldRecord) => {
-  const res = base(AIRTABLE_NAME).update(currentRecordId, { ...fields });
+export const createRecord = async (
+  fields: FieldRecord
+): Promise<NewFieldRecord> => {
+  const record = await base(AIRTABLE_NAME).create({ ...fields });
+  return {
+    recordId: record.id,
+    fields: record.fields
+  };
 };
 
-export const retrieveFormulaField = async () => {
-  const doubleBudget = await base(AIRTABLE_NAME).find(currentRecordId);
-  return;
+export const updateRecord = async (
+  fields: FieldRecord,
+  currentRecordId
+): Promise<FieldRecord> => {
+  console.log('update');
+  const record = await base(AIRTABLE_NAME).update(currentRecordId, {
+    ...fields
+  });
+  return record.fields;
 };

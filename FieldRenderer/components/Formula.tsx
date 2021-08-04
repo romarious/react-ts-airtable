@@ -1,6 +1,5 @@
 import * as React from 'react';
 import FieldHeader from '../FieldHeader';
-import { useAppDispatch } from '../../redux/hooks';
 
 type Props = {
   fieldId: string;
@@ -9,8 +8,6 @@ type Props = {
 };
 
 const Formula = (props: Props) => {
-  const dispatch = useAppDispatch();
-
   return (
     <div style={styles.container}>
       <FieldHeader name={props.fieldName} />

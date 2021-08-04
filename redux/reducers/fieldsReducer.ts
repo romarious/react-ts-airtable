@@ -9,6 +9,7 @@ import {
   createRecord,
   currentRecordId,
   FieldRecord,
+  NewFieldRecord,
   retrieveFormulaField,
   updateRecord
 } from '../../Airtable/airtable';
@@ -104,26 +105,23 @@ export const getNewRecord = (state: State): FieldRecord => {
 
 export const createFieldRecord = createAsyncThunk<{ state: RootState }>(
   'fields/createRecord',
-  async (_, { getState, dispatch }): Promise<FieldRecord> => {
+  async (_, { getState, dispatch }): Promise<NewFieldRecord> => {
     const newRecord = getNewRecord(getState().root);
-    const newRecordId = await createRecord(newRecord);
-    return newRecordId;
+    const NewFieldRecord = await createRecord(newRecord);
+    return NewFieldRecord;
   }
 );
 
-export const getDoubleBudgetValue = createAsyncThunk(
-  'fields/setDoubleBudget',
-  async (_, { dispatch }): Promise<void> => {
-    const data = await base(AIRTABLE_NAME).find(currentRecordId, function(
-      err,
-      record
-    ) {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      dispatch(setDoubleBudget(record.get('Double Budget')));
-    });
+export const saveFields = createAsyncThunk(
+  'fields/saveFields',
+  async (_, { getState }): Promise<FieldRecord> => {
+    const state = getState();
+    const updatedField = await updateRecord(
+      getNewRecord(state),
+      state.currentRecordId
+    );
+    console.log(updatedField);
+    return updatedField;
   }
 );
 
@@ -136,22 +134,29 @@ export const fieldsSlice = createSlice({
     },
     setTextFieldValue: (state, action) => {
       setFieldValue(state, action);
-    },
-    saveFields: state => {
-      updateRecord(getNewRecord(state));
-      retrieveFormulaField();
-    },
-    setDoubleBudget: (state, action) => {
-      setFieldValue(state, {
-        ...action,
-        payload: { fieldId: 'double_budget', value: action.payload }
-      });
     }
   },
   extraReducers: builder => {
     builder.addCase(createFieldRecord.fulfilled, (state, action) => {
-      console.log(state, action);
-      state.currentFieldId = action.payload;
+      const { recordId, fields } = action.payload;
+      state.currentFieldId = recordId;
+      setFieldValue(state, {
+        ...action,
+        payload: {
+          fieldId: 'double_budget',
+          value: action.payload.fields['Double Budget']
+        }
+      });
+    });
+    builder.addCase(saveFields.fulfilled, (state, action) => {
+      const { fields } = action.payload;
+      setFieldValue(state, {
+        ...action,
+        payload: {
+          fieldId: 'double_budget',
+          value: action.payload.fields['Double Budget']
+        }
+      });
     });
   }
 });
@@ -171,7 +176,6 @@ export const selectFields = (state: RootState): Field[] => state.root.fields;
 export const {
   setNumberFieldValue,
   setTextFieldValue,
-  saveFields,
   setDoubleBudget
 } = fieldsSlice.actions;
 
