@@ -18,40 +18,17 @@ export type FieldRecord = {
   Budget: number;
 };
 
-export const createRecord = async (fields: FieldRecord) => {
-  const res = await base(AIRTABLE_NAME).create({ ...fields }, function(
-    err,
-    record
-  ) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    currentRecordId = record.id;
-  });
-  return res;
+export const createRecord = async (fields: FieldRecord): Promise<number> => {
+  const [record] = await base(AIRTABLE_NAME).create({ ...fields });
+  console.log(record);
+  return record.id;
 };
 
 export const updateRecord = (fields: FieldRecord) => {
-  base(AIRTABLE_NAME).update(currentRecordId, { ...fields }, function(
-    err,
-    record
-  ) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-  });
+  const res = base(AIRTABLE_NAME).update(currentRecordId, { ...fields });
 };
 
-export const retrieveFormulaField = () => {
-  const bedgetDOunble = base(AIRTABLE_NAME).find(currentRecordId, function(
-    err,
-    record
-  ) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-  });
+export const retrieveFormulaField = async () => {
+  const doubleBudget = await base(AIRTABLE_NAME).find(currentRecordId);
+  return;
 };

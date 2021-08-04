@@ -36,12 +36,12 @@ export type Field =
     };
 
 export type State = {
-  currentFieldId: string;
+  currentRecordId: string;
   fields: Field[];
 };
 
 export const initialState: State = {
-  currentFieldId: '',
+  currentRecordId: '',
   fields: [
     {
       type: 'text',
@@ -104,11 +104,10 @@ export const getNewRecord = (state: State): FieldRecord => {
 
 export const createFieldRecord = createAsyncThunk<{ state: RootState }>(
   'fields/createRecord',
-  async (_, { getState, dispatch }): Promise<void> => {
+  async (_, { getState, dispatch }): Promise<FieldRecord> => {
     const newRecord = getNewRecord(getState().root);
-    const response = await createRecord(newRecord);
-    dispatch(getDoubleBudgetValue());
-    console.log(response);
+    const newRecordId = await createRecord(newRecord);
+    return newRecordId;
   }
 );
 
@@ -148,6 +147,12 @@ export const fieldsSlice = createSlice({
         payload: { fieldId: 'double_budget', value: action.payload }
       });
     }
+  },
+  extraReducers: builder => {
+    builder.addCase(createFieldRecord.fulfilled, (state, action) => {
+      console.log(state, action);
+      state.currentFieldId = action.payload;
+    });
   }
 });
 
