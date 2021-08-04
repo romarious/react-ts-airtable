@@ -4,22 +4,14 @@ import {
   AIRTABLE_BASE_ID,
   AIRTABLE_NAME
 } from '../constants';
+import {
+  CreatedFieldRecord,
+  FieldRecord
+} from '../redux/reducers/fieldsReducer';
 
 export const base = new Airtable({ apiKey: AIRTABLE_API_KEY }).base(
   AIRTABLE_BASE_ID
 );
-
-export type FieldRecord = {
-  Title: string;
-  Description: string;
-  Notes: string;
-  Budget: number;
-};
-
-export type CreatedFieldRecord = {
-  recordId: string;
-  fields: FieldRecord;
-};
 
 export const createRecord = async (
   fields: FieldRecord

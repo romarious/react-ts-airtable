@@ -4,16 +4,7 @@ import {
   createSlice,
   PayloadAction
 } from '@reduxjs/toolkit';
-import {
-  base,
-  createRecord,
-  currentRecordId,
-  FieldRecord,
-  CreatedFieldRecord,
-  retrieveFormulaField,
-  updateRecord
-} from '../../Airtable/airtable';
-import { AIRTABLE_NAME } from '../../constants';
+import { createRecord, updateRecord } from '../../Airtable/airtable';
 import { RootState } from '../store';
 
 export type Field =
@@ -39,6 +30,28 @@ export type Field =
 export type State = {
   currentRecordId: string;
   fields: Field[];
+};
+
+export type TextFieldPayload = {
+  fieldId: string;
+  value: number;
+};
+
+export type NumberFieldPayload = {
+  fieldId: string;
+  value: number;
+};
+
+export type FieldRecord = {
+  Title: string;
+  Description: string;
+  Notes: string;
+  Budget: number;
+};
+
+export type CreatedFieldRecord = {
+  recordId: string;
+  fields: FieldRecord;
 };
 
 export const initialState: State = {
@@ -105,8 +118,7 @@ export const getNewRecord = (state: State): FieldRecord => {
 
 export const createFieldRecord = createAsyncThunk<{ state: RootState }>(
   'fields/createRecord',
-  async (_, { getState, dispatch }): Promise<CreatedFieldRecord> => {
-    console.log(getState());
+  async (_, { getState }): Promise<CreatedFieldRecord> => {
     const newRecord = getNewRecord(getState().root);
     const NewFieldRecord = await createRecord(newRecord);
     return NewFieldRecord;
@@ -160,22 +172,8 @@ export const fieldsSlice = createSlice({
   }
 });
 
-export type TextFieldPayload = {
-  fieldId: string;
-  value: number;
-};
-
-export type NumberFieldPayload = {
-  fieldId: string;
-  value: number;
-};
-
 export const fieldsSelector = (state: RootState): Field[] => state.root.fields;
 
-export const {
-  setNumberFieldValue,
-  setTextFieldValue,
-  setDoubleBudget
-} = fieldsSlice.actions;
+export const { setNumberFieldValue, setTextFieldValue } = fieldsSlice.actions;
 
 export default fieldsSlice.reducer;
