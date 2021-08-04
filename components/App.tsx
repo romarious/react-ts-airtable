@@ -1,10 +1,10 @@
 import * as React from 'react';
 import FieldRenderer from './FieldRenderer';
-import { useAppDispatch } from './redux/hooks';
-import { createFieldRecord } from './redux/reducers/fieldsReducer';
-import { useSelectFields } from './redux/selectors';
-import Save from './Save/Save';
-import './style.css';
+import { useAppDispatch } from '../redux/hooks';
+import { createFieldRecord } from '../redux/reducers/fieldsReducer';
+import { useSelectFields } from '../redux/selectors';
+import SaveButton from './SaveButton';
+import '../style.css';
 
 const App: React.FC = () => {
   const fields = useSelectFields();
@@ -19,7 +19,7 @@ const App: React.FC = () => {
       {fields.map(field => (
         <FieldRenderer field={field} />
       ))}
-      <Save />
+      <SaveButton />
     </div>
   );
 };

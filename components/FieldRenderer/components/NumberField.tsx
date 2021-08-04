@@ -1,8 +1,8 @@
 import * as React from 'react';
 import FieldHeader from '../FieldHeader';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch } from '../../../redux/hooks';
 import NumericInput = require('react-numeric-input');
-import { setNumberFieldValue } from '../../redux/reducers/fieldsReducer';
+import { setNumberFieldValue } from '../../../redux/reducers/fieldsReducer';
 
 type Props = {
   fieldId: string;

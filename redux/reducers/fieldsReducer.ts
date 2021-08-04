@@ -4,7 +4,7 @@ import {
   createSlice,
   PayloadAction
 } from '@reduxjs/toolkit';
-import { createRecord, updateRecord } from '../../Airtable/airtable';
+import { createRecord, updateRecord } from '../../services/airtable';
 import { RootState } from '../store';
 
 export type Field =

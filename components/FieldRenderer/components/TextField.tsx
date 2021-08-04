@@ -1,7 +1,7 @@
 import * as React from 'react';
 import FieldHeader from '../FieldHeader';
-import { useAppDispatch } from '../../redux/hooks';
-import { setTextFieldValue } from '../../redux/reducers/fieldsReducer';
+import { useAppDispatch } from '../../../redux/hooks';
+import { setTextFieldValue } from '../../../redux/reducers/fieldsReducer';
 
 type Props = {
   fieldId: string;
