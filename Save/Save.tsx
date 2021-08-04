@@ -10,10 +10,29 @@ const Save: React.FC = () => {
   };
 
   return (
-    <div>
-      <button onClick={saveForm}> Save </button>
+    <div style={styles.buttonContainer}>
+      <button style={styles.button} onClick={saveForm}>
+        {' '}
+        Save{' '}
+      </button>
     </div>
   );
+};
+
+const styles = {
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  button: {
+    backgroundColor: '#98ed98',
+    border: 'none',
+    padding: '10px 20px',
+    borderRadius: '15px',
+    outline: 'none',
+    color: '454745',
+    cursor: 'pointer'
+  }
 };
 
 export default Save;
