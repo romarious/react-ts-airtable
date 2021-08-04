@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { saveFields } from '../redux/reducers/fieldsReducer';
 
-const Save: React.FC = () => {
+const SaveButton: React.FC = () => {
   const dispatch = useDispatch();
 
   const saveForm = (event: React.MouseEvent) => {
@@ -35,4 +35,4 @@ const styles = {
   }
 };
 
-export default Save;
+export default SaveButton;
