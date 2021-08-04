@@ -9,7 +9,7 @@ import {
   createRecord,
   currentRecordId,
   FieldRecord,
-  NewFieldRecord,
+  CreatedFieldRecord,
   retrieveFormulaField,
   updateRecord
 } from '../../Airtable/airtable';
@@ -105,7 +105,8 @@ export const getNewRecord = (state: State): FieldRecord => {
 
 export const createFieldRecord = createAsyncThunk<{ state: RootState }>(
   'fields/createRecord',
-  async (_, { getState, dispatch }): Promise<NewFieldRecord> => {
+  async (_, { getState, dispatch }): Promise<CreatedFieldRecord> => {
+    console.log(getState());
     const newRecord = getNewRecord(getState().root);
     const NewFieldRecord = await createRecord(newRecord);
     return NewFieldRecord;

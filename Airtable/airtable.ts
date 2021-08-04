@@ -16,14 +16,14 @@ export type FieldRecord = {
   Budget: number;
 };
 
-export type NewFieldRecord = {
+export type CreatedFieldRecord = {
   recordId: string;
   fields: FieldRecord;
 };
 
 export const createRecord = async (
   fields: FieldRecord
-): Promise<NewFieldRecord> => {
+): Promise<CreatedFieldRecord> => {
   const record = await base(AIRTABLE_NAME).create({ ...fields });
   return {
     recordId: record.id,
