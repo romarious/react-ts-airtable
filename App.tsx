@@ -1,7 +1,10 @@
 import * as React from 'react';
 import FieldRenderer from './FieldRenderer';
 import { useAppDispatch } from './redux/hooks';
-import { createFieldRecord } from './redux/reducers/fieldsReducer';
+import {
+  createFieldRecord,
+  getDoubleBudgetValue
+} from './redux/reducers/fieldsReducer';
 import { useSelectFields } from './redux/selectors';
 import Save from './Save/Save';
 import './style.css';
@@ -13,7 +16,7 @@ const App = () => {
   React.useEffect(() => {
     dispatch(createFieldRecord());
   }, []);
-  
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       {fields.map(field => (

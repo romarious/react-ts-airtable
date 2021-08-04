@@ -5,9 +5,11 @@ import {
   AIRTABLE_NAME
 } from '../constants';
 
-const base = new Airtable({ apiKey: AIRTABLE_API_KEY }).base(AIRTABLE_BASE_ID);
+export const base = new Airtable({ apiKey: AIRTABLE_API_KEY }).base(
+  AIRTABLE_BASE_ID
+);
 
-let currentRecordId: string = '';
+export let currentRecordId: string = '';
 
 export const getFormSubmitions = () => {
   const forms = base(AIRTABLE_NAME)
@@ -46,18 +48,31 @@ export type FieldRecord = {
   Budget: number;
 };
 
-export const createRecord = (fields: FieldRecord) => {
-  base(AIRTABLE_NAME).create({ ...fields }, function(err, record) {
+export const createRecord = async (fields: FieldRecord) => {
+  await base(AIRTABLE_NAME).create({ ...fields }, function(err, record) {
     if (err) {
       console.error(err);
       return;
     }
     currentRecordId = record.id;
+    return currentRecordId;
   });
 };
 
 export const updateRecord = (fields: FieldRecord) => {
   base(AIRTABLE_NAME).update(currentRecordId, { ...fields }, function(
+    err,
+    record
+  ) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+  });
+};
+
+export const retrieveFormulaField = () => {
+  const bedgetDOunble = base(AIRTABLE_NAME).find(currentRecordId, function(
     err,
     record
   ) {
