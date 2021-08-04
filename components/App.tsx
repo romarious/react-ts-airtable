@@ -2,7 +2,7 @@ import * as React from 'react';
 import FieldRenderer from './FieldRenderer';
 import { useAppDispatch } from '../redux/hooks';
 import { createFieldRecord } from '../redux/reducers/fieldsReducer';
-import { useSelectFields } from '../redux/selectors';
+import { useSelectFields } from '../redux/hooks';
 import SaveButton from './SaveButton';
 import '../style.css';
 
